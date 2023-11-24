@@ -1,0 +1,22 @@
+version: '3.9'
+
+services:
+  web:
+    container_name: software-testing.uu.se
+    image: uu/software-testing
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src
+
+    # Enable Interactive Shell
+    tty: true
+    stdin_open: true
+    command: bash
+
+networks:
+  default:
+    name: uu-server
+    external: true
