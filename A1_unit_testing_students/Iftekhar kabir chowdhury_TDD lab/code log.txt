@@ -1,0 +1,219 @@
+Red
+it should handle authors having one name
+Test code.
+
+import  bibtex
+import  pytest
+
+@ pytest . fixture
+def setup_data():
+ return{
+'simple_author_1' : "Smith" ,
+'simple_author_2' : "Jones" ,
+'author_1' : "John Smith" ,
+'author_2' : "Bob Jones",
+'author_3' : "Justin Kenneth Pearson",
+'surname_first_1' : "Pearson, Justin Kenneth",
+'surname_first_2' : "Van Hentenryck, Pascal" ,
+'multiple_authors_1' : "Pearson, Justin and Jones, Bob"
+}
+
+def test_author_1 (setup_data) :
+ (Surname , FirstNames) = bibtex.extract_author(setup_data['simple_author_1'])
+ assert(Surname , FirstNames ) == ( 'Smith' , '' )
+
+ (Surname , FirstNames) = bibtex.extract_author(setup_data['simple_author_2'])
+ assert(Surname , FirstNames ) == ( 'Jones' , '' )
+
+============================= test session starts =============================
+collecting ... collected 1 item
+
+test_bibtex.py::test_author_1 FAILED                                     [100%]
+test_bibtex.py:16 (test_author_1)
+test_bibtex.py:18: ValueError
+
+
+==================================================================
+
+Green
+Now it handles with authors having one name
+code added
+def extract_author(str):
+       return(str,"")
+
+============================= test session starts =============================
+collecting ... collected 5 items
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+
+
+
+
+========================= 1 passed in 0.27s =========================
+
+Red
+it should handle authors having two names firstname and Surname
+def test_author_2 (setup_data) :
+ (Surname , FirstNames) = bibtex.extract_author(setup_data['author_1'])
+ assert(Surname , FirstNames ) == ( 'Smith' , 'John' )
+
+ (Surname , FirstNames) = bibtex.extract_author(setup_data['author_2'])
+ assert(Surname , FirstNames ) == ( 'Jones' , 'Bob' )
+
+============================= test session starts =============================
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 FAILED                                     [ 40%]
+test_bibtex.py:23 (test_author_2)
+test_bibtex.py:26: AssertionError
+
+==================================================================
+Green
+Now it handles authors with firstname and Surname
+code added
+def extract_author(str):
+       names = str.split()
+       if len(names) == 2:
+           Surname, FirstNames = names
+           return FirstNames, Surname
+       return (str, "")
+
+
+
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 PASSED                                     [ 40%]
+
+
+
+=========================  2 passed in 0.36s =========================
+
+Red
+it should handle authors having three names two firstname and one Surname
+def test_author_3 (setup_data) :
+ (Surname , FirstNames) = bibtex.extract_author(setup_data['author_3'])
+ assert(Surname , FirstNames ) == ( 'Pearson' , 'Justin Kenneth' )
+
+
+============================= test session starts =============================
+collecting ... collected 5 items
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 PASSED                                     [ 40%]
+test_bibtex.py::test_author_3 FAILED                                     [ 60%]
+test_bibtex.py:30 (test_author_3)
+bibtex.py:9: UnboundLocalError
+==================================================================
+Green
+Now it handles authors with three names one surname and two firstnames
+code added
+def extract_author(str):
+    names = str.split()
+    if len(names) == 2:
+        Surname, FirstNames = names
+        return FirstNames, Surname
+    elif len(names) == 3:
+        Firstnames = ' '.join(names[0: 2])
+        Surname = names[2]
+        return Surname, Firstnames
+    return (str, "")
+
+============================= test session starts =============================
+collecting ... collected 5 items
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 PASSED                                     [ 40%]
+test_bibtex.py::test_author_3 PASSED                                     [ 60%]
+
+
+=========================  3 passed in 0.20s =========================
+Red
+it should handle authors with three names one surname and two firstnames and there is ',' between them
+def test_author_4 (setup_data) :
+ (Surname , FirstNames) = bibtex.extract_author(setup_data['surname_first_1' ])
+ assert(Surname , FirstNames ) == ( 'Pearson' , 'Justin Kenneth' )
+
+ (Surname , FirstNames) = bibtex.extract_author(setup_data['surname_first_2'])
+ assert(Surname , FirstNames ) ==  ("Van Hentenryck" , "Pascal" )
+============================= test session starts =============================
+collecting ... collected 5 items
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 PASSED                                     [ 40%]
+test_bibtex.py::test_author_3 PASSED                                     [ 60%]
+test_bibtex.py::test_author_4 FAILED                                     [ 80%]
+test_bibtex.py:34 (test_author_4)
+test_bibtex.py:37: AssertionError
+==================================================================
+Green
+Now it handles authors with three names one surname and two firstnames and there is ',' between them
+code added
+def extract_author(str):
+    if(str.find(',')!=-1):
+        names = str.split(',')
+        Firstnames = ''.join(names[1:])
+        Firstnames = names[1].strip()
+        Surname = names[0]
+        return Surname,Firstnames
+    else:
+        names = str.split()
+        if len(names) == 2:
+            Surname, FirstNames = names
+            return FirstNames, Surname
+        elif len(names) == 3:
+            Firstnames =' '.join(names[0: 2])
+            Surname =names[2]
+            return Surname,Firstnames
+        return(str,"")
+============================= test session starts =============================
+collecting ... collected 5 items
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 PASSED                                     [ 40%]
+test_bibtex.py::test_author_3 PASSED                                     [ 60%]
+test_bibtex.py::test_author_4 PASSED                                     [ 80%]
+
+
+=========================  4 passed in 0.18s =========================
+Red
+it should handle multiple authors also there is 'and' between them 
+def test_multiple_authors (setup_data) :
+ Authors = bibtex.extract_authors(setup_data['multiple_authors_1'])
+ assert Authors[0] == ( 'Pearson' , 'Justin' )
+ assert Authors[1] == ( 'Jones' , 'Bob' )
+============================= test session starts =============================
+collecting ... collected 5 items
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 PASSED                                     [ 40%]
+test_bibtex.py::test_author_3 PASSED                                     [ 60%]
+test_bibtex.py::test_author_4 PASSED                                     [ 80%]
+test_bibtex.py::test_multiple_authors FAILED                             [100%]
+test_bibtex.py:41 (test_multiple_authors)
+test_bibtex.py:45: AssertionError
+
+
+==================================================================
+Green
+Now it handles multiple authors also there is 'and' between them 
+code added
+def extract_authors(str):
+    names = str.split('and')
+    Aurthors=[]
+    Aurthors.append(extract_author(names[0].strip()))
+    Aurthors.append(extract_author(names[1].strip()))
+    return Aurthors
+============================= test session starts =============================
+collecting ... collected 5 items
+
+test_bibtex.py::test_author_1 PASSED                                     [ 20%]
+test_bibtex.py::test_author_2 PASSED                                     [ 40%]
+test_bibtex.py::test_author_3 PASSED                                     [ 60%]
+test_bibtex.py::test_author_4 PASSED                                     [ 80%]
+test_bibtex.py::test_multiple_authors PASSED                             [100%]
+
+============================== 5 passed in 0.04s ==============================
+
+
+
+
+
