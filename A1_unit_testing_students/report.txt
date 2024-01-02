@@ -1,0 +1,21 @@
+Before implementing
+test_checkout_and_payment.py::test_add_item PASSED                       [ 12%]
+test_checkout_and_payment.py::test_out_of_stock PASSED                   [ 25%]
+test_checkout_and_payment.py::test_one_product PASSED                    [ 37%]
+test_checkout_and_payment.py::test_several_products PASSED               [ 50%]
+test_checkout_and_payment.py::test_other_letter PASSED                   [ 62%]
+test_checkout_and_payment.py::test_PaybyCard FAILED                      [ 75%]
+test_checkout_and_payment.py::test_MultipleCardpayment FAILED            [ 87%]
+test_checkout_and_payment.py::test_mixedPayments FAILED                  [100%]
+========================= 3 failed, 5 passed in 0.22s =========================
+After implementing
+test_checkout_and_payment.py::test_add_item FAILED                       [ 12%]
+test_checkout_and_payment.py::test_out_of_stock FAILED                   [ 25%]
+test_checkout_and_payment.py::test_one_product FAILED                    [ 37%]
+test_checkout_and_payment.py::test_several_products FAILED               [ 50%]
+test_checkout_and_payment.py::test_other_letter FAILED                   [ 62%]
+test_checkout_and_payment.py::test_PaybyCard PASSED                      [ 75%]
+test_checkout_and_payment.py::test_MultipleCardpayment PASSED            [ 87%]
+test_checkout_and_payment.py::test_mixedPayments PASSED                  [100%]
+
+========================= 5 failed, 3 passed in 0.21s =========================

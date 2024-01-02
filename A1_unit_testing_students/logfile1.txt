@@ -1,0 +1,159 @@
+C:\Users\HP\PycharmProjects\pythonProject11\.venv\Scripts\python.exe "C:/Users/HP/AppData/Local/Programs/PyCharm Community/plugins/python-ce/helpers/pycharm/_jb_pytest_runner.py" --path C:\Users\HP\PycharmProjects\pythonProject11\1DL610-HT23-coding-assignments-students\A1_unit_testing_students\test_checkout_and_payment.py 
+Testing started at 11:36 PM ...
+Launching pytest with arguments C:\Users\HP\PycharmProjects\pythonProject11\1DL610-HT23-coding-assignments-students\A1_unit_testing_students\test_checkout_and_payment.py --no-header --no-summary -q in C:\Users\HP\PycharmProjects\pythonProject11\1DL610-HT23-coding-assignments-students\A1_unit_testing_students
+
+============================= test session starts =============================
+collecting ... collected 8 items
+
+test_checkout_and_payment.py::test_add_item PASSED                       [ 12%]
+test_checkout_and_payment.py::test_out_of_stock PASSED                   [ 25%]
+test_checkout_and_payment.py::test_one_product PASSED                    [ 37%]
+test_checkout_and_payment.py::test_several_products PASSED               [ 50%]
+test_checkout_and_payment.py::test_other_letter PASSED                   [ 62%]
+test_checkout_and_payment.py::test_PaybyCard FAILED                      [ 75%]1. Pens - $0.5 - Units: 10
+Pens added to your cart.
+['Pens', 0.5, 10]
+
+
+Thank you for your purchase, Simba! Your remaining balance is 99.5
+
+Invalid input. Please try again.
+Pens added to your cart.
+Your cart is not empty.You have following items
+['Pens', 0.5, 9]
+
+test_checkout_and_payment.py:137 (test_PaybyCard)
+capsys = <_pytest.capture.CaptureFixture object at 0x000002271D8F9290>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002271D8F9510>
+
+    def test_PaybyCard(capsys, monkeypatch):
+        card = {"card_number": "1234 5678 1234 5678", "holder_name": "Simba","expiry_date": "1/26"}
+        login_details = {"username": "Simba", "wallet": 100,"cards":[card]}
+        products = [Product("Pens", 0.5, 10)]
+        monkeypatch.setattr("checkout_and_payment.products", products)
+        monkeypatch.setattr("builtins.input", fake_input(["1","c","y","card","1","l"]))
+>       checkoutAndPayment(login_details)
+
+test_checkout_and_payment.py:144: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checkout_and_payment.py:207: in checkoutAndPayment
+    ask_logout = logout(cart)
+logout.py:12: in logout
+    logout_confirmation = input("Do you still want to logout? (Y/N): ").lower()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+foo_bar = 'Do you still want to logout? (Y/N): '
+
+    def _fake_input(foo_bar):
+        nonlocal i
+>       mimicked_input = input_list[i]
+E       IndexError: list index out of range
+
+test_checkout_and_payment.py:54: IndexError
+
+test_checkout_and_payment.py::test_MultipleCardpayment FAILED            [ 87%]
+test_checkout_and_payment.py:148 (test_MultipleCardpayment)
+'Payment using card 1 successful.' != ('1. Pens - $0.5 - Units: 10\n'
+ 'Pens added to your cart.\n'
+ "['Pens', 0.5, 9]\n"
+ "['Pens', 0.5, 10]\n"
+ '\n'
+ '\n'
+ 'Thank you for your purchase, Simba! Your remaining balance is 99.0\n'
+ '\n'
+ 'Invalid input. Please try again.\n'
+ 'Pens added to your cart.\n'
+ '\n'
+ 'Invalid input. Please try again.\n'
+ "['Pens', 0.5, 9]\n"
+ '\n'
+ '\n'
+ 'Thank you for your purchase, Simba! Your remaining balance is 98.5\n'
+ '\n'
+ 'Invalid input. Please try again.\n'
+ '\n'
+ 'Invalid input. Please try again.\n'
+ 'You have been logged out\n')
+
+<Click to see difference>
+
+capsys = <_pytest.capture.CaptureFixture object at 0x000002271D8C6CD0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002271D8C7410>
+
+    def test_MultipleCardpayment(capsys, monkeypatch):
+        card = {"card_number": "1234 5678 1234 5678", "holder_name": "Simba","expiry_date": "1/26"}
+        card_2 = {"card_number": "1234 5678 0000 0000", "holder_name": "Simba","expiry_date": "1/26"}
+        login_details = {"username": "Simba", "wallet": 100,"cards":[card,card_2]}
+        products = [Product("Pens", 0.5, 10)]
+        monkeypatch.setattr("checkout_and_payment.products", products)
+        monkeypatch.setattr("builtins.input", fake_input(["1","c","y","card","1","6","c","y","card","2","l"]))
+        checkoutAndPayment(login_details)
+        captured = capsys.readouterr()
+>       assert "Payment using card 1 successful." in captured.out
+E       assert 'Payment using card 1 successful.' in "1. Pens - $0.5 - Units: 10\nPens added to your cart.\n['Pens', 0.5, 9]\n['Pens', 0.5, 10]\n\n\nThank you for your purchase, Simba! Your remaining balance is 99.0\n\nInvalid input. Please try again.\nPens added to your cart.\n\nInvalid input. Please try again.\n['Pens', 0.5, 9]\n\n\nThank you for your purchase, Simba! Your remaining balance is 98.5\n\nInvalid input. Please try again.\n\nInvalid input. Please try again.\nYou have been logged out\n"
+E        +  where "1. Pens - $0.5 - Units: 10\nPens added to your cart.\n['Pens', 0.5, 9]\n['Pens', 0.5, 10]\n\n\nThank you for your purchase, Simba! Your remaining balance is 99.0\n\nInvalid input. Please try again.\nPens added to your cart.\n\nInvalid input. Please try again.\n['Pens', 0.5, 9]\n\n\nThank you for your purchase, Simba! Your remaining balance is 98.5\n\nInvalid input. Please try again.\n\nInvalid input. Please try again.\nYou have been logged out\n" = CaptureResult(out="1. Pens - $0.5 - Units: 10\nPens added to your cart.\n['Pens', 0.5, 9]\n['Pens', 0.5, 10]\n\n\nThank you for your purchase, Simba! Your remaining balance is 99.0\n\nInvalid input. Please try again.\nPens added to your cart.\n\nInvalid input. Please try again.\n['Pens', 0.5, 9]\n\n\nThank you for your purchase, Simba! Your remaining balance is 98.5\n\nInvalid input. Please try again.\n\nInvalid input. Please try again.\nYou have been logged out\n", err='').out
+
+test_checkout_and_payment.py:158: AssertionError
+
+test_checkout_and_payment.py::test_mixedPayments FAILED                  [100%]1. Backpack - $15.0 - Units: 1
+2. Banana - $15.0 - Units: 5
+3. Pens - $0.5 - Units: 10
+
+Invalid input. Please try again.
+
+Your basket is empty. Please add items before checking out.
+
+Invalid input. Please try again.
+
+Invalid input. Please try again.
+
+Your basket is empty. Please add items before checking out.
+
+Invalid input. Please try again.
+Backpack added to your cart.
+
+Invalid input. Please try again.
+['Backpack', 15.0, 1]
+
+
+Thank you for your purchase, Simba! Your remaining balance is 185.0
+
+Invalid input. Please try again.
+Pens added to your cart.
+Your cart is not empty.You have following items
+['Pens', 0.5, 10]
+
+test_checkout_and_payment.py:160 (test_mixedPayments)
+capsys = <_pytest.capture.CaptureFixture object at 0x000002271D956AD0>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002271D957450>
+
+    def test_mixedPayments(capsys, monkeypatch):
+        card = {"card_number": "1234 5678 1234 5678", "holder_name": "Simba","expiry_date": "1/26"}
+        card_2 = {"card_number": "1234 5678 0000 0000", "holder_name": "Simba","expiry_date": "1/26"}
+        products = [Product("Backpack", 15, 1), Product("Banana", 15, 5), Product("Pens", 0.5, 10)]
+        monkeypatch.setattr("checkout_and_payment.products", products)
+        login_details = {"username": "Simba", "wallet": 200, "cards": [card, card_2]}
+        monkeypatch.setattr("builtins.input", fake_input(["6","c","y","wallet","6","c","y","card","1","6","c","y","card","2","l"]))
+>       checkoutAndPayment(login_details)
+
+test_checkout_and_payment.py:168: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checkout_and_payment.py:207: in checkoutAndPayment
+    ask_logout = logout(cart)
+logout.py:12: in logout
+    logout_confirmation = input("Do you still want to logout? (Y/N): ").lower()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+foo_bar = 'Do you still want to logout? (Y/N): '
+
+    def _fake_input(foo_bar):
+        nonlocal i
+>       mimicked_input = input_list[i]
+E       IndexError: list index out of range
+
+test_checkout_and_payment.py:54: IndexError
+
+
+========================= 3 failed, 5 passed in 0.22s =========================
+
+Process finished with exit code 1

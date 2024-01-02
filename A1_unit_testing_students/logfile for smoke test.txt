@@ -1,0 +1,55 @@
+C:\Users\HP\PycharmProjects\pythonProject11\.venv\Scripts\python.exe "C:/Users/HP/AppData/Local/Programs/PyCharm Community/plugins/python-ce/helpers/pycharm/_jb_pytest_runner.py" --path C:\Users\HP\PycharmProjects\pythonProject11\1DL610-HT23-coding-assignments-students\A1_unit_testing_students\checkout_and_payment_somke_test.py 
+Testing started at 1:28 AM ...
+Launching pytest with arguments C:\Users\HP\PycharmProjects\pythonProject11\1DL610-HT23-coding-assignments-students\A1_unit_testing_students\checkout_and_payment_somke_test.py --no-header --no-summary -q in C:\Users\HP\PycharmProjects\pythonProject11\1DL610-HT23-coding-assignments-students\A1_unit_testing_students
+
+============================= test session starts =============================
+collecting ... collected 10 items
+
+checkout_and_payment_somke_test.py::test_login PASSED                    [ 10%]Successfully logged in.
+
+checkout_and_payment_somke_test.py::test_additem PASSED                  [ 20%]
+checkout_and_payment_somke_test.py::test_removeitem FAILED               [ 30%]1. Backpack - $15.0 - Units: 1
+Backpack added to your cart.
+Your cart is not empty.You have following items
+['Backpack', 15.0, 1]
+
+checkout_and_payment_somke_test.py:80 (test_removeitem)
+capsys = <_pytest.capture.CaptureFixture object at 0x0000024E261EC790>
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000024E261EC650>
+
+    def test_removeitem(capsys, monkeypatch):
+        card = {"card_number": "1234 5678 1234 5678", "holder_name": "Simba","expiry_date": "1/26"}
+        login_details = {"username": "Simba", "wallet": 100, "cards": [card]}
+        cart = ShoppingCart()
+        products = [Product("Backpack", 15, 1)]
+        monkeypatch.setattr("checkout_and_payment.products", products)
+        monkeypatch.setattr("checkout_and_payment.cart", cart)
+        monkeypatch.setattr("builtins.input", fake_input(["1","l", "r"]))
+>       checkoutAndPayment(login_details)
+
+checkout_and_payment_somke_test.py:89:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+checkout_and_payment.py:137: in checkoutAndPayment
+    choice = input("\nEnter the product number you want to add to your cart (c to check cart, l to logout): ")
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+foo_bar = '\nEnter the product number you want to add to your cart (c to check cart, l to logout): '
+
+    def _fake_input(foo_bar):
+        nonlocal i
+>       mimicked_input = input_list[i]
+E       IndexError: list index out of range
+
+checkout_and_payment_somke_test.py:57: IndexError
+
+checkout_and_payment_somke_test.py::test_productoutofstock PASSED        [ 40%]
+checkout_and_payment_somke_test.py::test_paywithzerobalance PASSED       [ 50%]
+checkout_and_payment_somke_test.py::test_PaybyWallet PASSED              [ 60%]
+checkout_and_payment_somke_test.py::test_PaybyCard PASSED                [ 70%]
+checkout_and_payment_somke_test.py::test_MultipleCardpayment PASSED      [ 80%]
+checkout_and_payment_somke_test.py::test_mixedPayments PASSED            [ 90%]
+checkout_and_payment_somke_test.py::test_log_out PASSED                  [100%]
+
+========================= 1 failed, 9 passed in 0.17s =========================
+
+Process finished with exit code 1
