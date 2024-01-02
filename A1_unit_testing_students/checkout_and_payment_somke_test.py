@@ -85,7 +85,7 @@ def test_removeitem(capsys, monkeypatch):
     products = [Product("Backpack", 15, 1)]
     monkeypatch.setattr("checkout_and_payment.products", products)
     monkeypatch.setattr("checkout_and_payment.cart", cart)
-    monkeypatch.setattr("builtins.input", fake_input(["1","l", "r"]))
+    monkeypatch.setattr("builtins.input", fake_input(["1","l", "y"]))
     checkoutAndPayment(login_details)
     captured = capsys.readouterr()
     assert "Backpack removed from your cart." in captured.out
