@@ -1,0 +1,8 @@
+Differences about the logfiles and a breef explanation about them.
+
+LOGFILE 1: In this logfile there are some errors given by the tests of the tasks other than the ones I did. The test functions of my task are
+working but I couldn't make other people's tasks tests work. That's why 11 tests are failed.
+
+LOGFILE 2: In this logfile we can encounter the same errors we had in the previous logfile but appart from them there are some more given
+by the changes made in the checkout_and_payment class. Between these changes are the implementation of new functionality which was asked
+in the assignment, which lead to some altered functions tests to stop working. This is what happened with the chack_cart function tests.

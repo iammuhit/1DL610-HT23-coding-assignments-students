@@ -1,24 +1,27 @@
 import csv
 from logout import logout
 
-#User class to represent user information
+
+# User class to represent user information
 class User:
     def __init__(self, name, wallet):
         self.name = name
         self.wallet = float(wallet)
 
-#Product class to represent product information
+
+# Product class to represent product information
 class Product:
     def __init__(self, name, price, units):
         self.name = name
         self.price = float(price)
         self.units = int(units)
 
-#A method to get product details as a list
+    # A method to get product details as a list
     def get_product(self):
         return [self.name, self.price, self.units]
 
-#ShoppingCart class to represent the user's shopping cart
+
+# ShoppingCart class to represent the user's shopping cart
 class ShoppingCart:
     def __init__(self):
         self.items = []
@@ -43,6 +46,7 @@ class ShoppingCart:
     def get_total_price(self):
         return sum(item.price for item in self.items)
 
+
 # Function to load products from a CSV file
 def load_products_from_csv(file_path):
     products = []
@@ -52,9 +56,11 @@ def load_products_from_csv(file_path):
             products.append(Product(row['Product'], row['Price'], row['Units']))
     return products
 
+
 # Load products from the CSV file
-products= load_products_from_csv("products.csv")
+products = load_products_from_csv("products.csv")
 cart = ShoppingCart()
+
 
 # Function to complete the checkout process
 def checkout(user, cart):
@@ -83,18 +89,56 @@ def checkout(user, cart):
     # Print a thank you message with the remaining balance
     print("\n")
     print(f"Thank you for your purchase, {user.name}! Your remaining balance is {user.wallet}")
-    
+
+
+def query_item_in_cart(cart, product_name):
+    for item in cart.items:
+        if item.name.lower() == product_name.lower():
+            return item
+    return None
+
+
+def remove_item_from_cart(cart, product_name):
+    item = query_item_in_cart(cart, product_name)
+    if item is not None:
+        cart.remove_item(item)
+        print(f"{item.name} removed from cart.")
+    else:
+        print(f"{product_name} is not in the cart.")
+
+    print("\nRemaining items in the cart:")
+    for i in cart.retrieve_item():
+        print(i.get_product())
+
+    return True if item else False
+
+
 # Function to check the cart and proceed to checkout if requested
 def check_cart(user, cart):
     # Print products in the cart
     for i in cart.retrieve_item():
         print(i.get_product())
     # Ask the user if they want to checkout
-    question = input("Do you want to checkout (Y/N)?")
-    if question.lower()  == "y":
-        return checkout(user,cart)
-    else:
+    question = input(
+        "If you want to checkout press 'y', if you want to continue shopping press 'n', if you want to remove an item from the cart press 'r' and if you want to search for an item press 's'")
+    if question.lower() == "y":
+        return checkout(user, cart)
+
+    elif question.lower() == "r":
+        product_name = input("Enter the name of the product you want to be removed: ")
+        remove_item_from_cart(cart, product_name)
+
+    elif question.lower() == "s":
+        product_name = input("Enter the name of the product you want to search: ")
+        item = query_item_in_cart(cart, product_name)
+        if item:
+            print("Searched item:\n")
+            print(f"{item.name} - ${item.price} - Units: {item.units}")
+        else:
+            print(f"{product_name} is not in your cart.")
+
         return False
+
 
 # Main function for the shopping and checkout process
 def checkoutAndPayment(login_info):
@@ -102,15 +146,15 @@ def checkoutAndPayment(login_info):
     user = User(login_info["username"], login_info["wallet"])
     # Display available products
     for i, product in enumerate(products):
-        print(f"{i+1}. {product.name} - ${product.price} - Units: {product.units}")
-    
+        print(f"{i + 1}. {product.name} - ${product.price} - Units: {product.units}")
+
     while True:
-        
+
         # Get user input for product selection in numbers
         choice = input("\nEnter the product number you want to add to your cart (c to check cart, l to logout): ")
-        
+
         if choice == 'c':
-             # Check the cart and proceed to checkout if requested
+            # Check the cart and proceed to checkout if requested
             check = check_cart(user, cart)
             if check is False:
                 continue
@@ -132,4 +176,3 @@ def checkoutAndPayment(login_info):
                 print(f"Sorry, {selected_product.name} is out of stock.")
         else:
             print("\nInvalid input. Please try again.")
-
